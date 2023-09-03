@@ -508,7 +508,6 @@ function create_fragment(ctx) {
 	let figure;
 	let audio;
 	let audio_src_value;
-	let audio_muted_value;
 
 	return {
 		c() {
@@ -532,8 +531,8 @@ function create_fragment(ctx) {
 		h() {
 			audio.controls = true;
 			if (!src_url_equal(audio.src, audio_src_value = /*url*/ ctx[0])) attr(audio, "src", audio_src_value);
-			audio.autoplay = /*autoplay*/ ctx[1];
-			audio.muted = audio_muted_value = !/*autoplay*/ ctx[1];
+			audio.autoplay = true;
+			audio.muted = true;
 			attr(div, "class", "items svelte-117rpi");
 		},
 		m(target, anchor) {
@@ -544,14 +543,6 @@ function create_fragment(ctx) {
 		p(ctx, [dirty]) {
 			if (dirty & /*url*/ 1 && !src_url_equal(audio.src, audio_src_value = /*url*/ ctx[0])) {
 				attr(audio, "src", audio_src_value);
-			}
-
-			if (dirty & /*autoplay*/ 2) {
-				audio.autoplay = /*autoplay*/ ctx[1];
-			}
-
-			if (dirty & /*autoplay*/ 2 && audio_muted_value !== (audio_muted_value = !/*autoplay*/ ctx[1])) {
-				audio.muted = audio_muted_value;
 			}
 		},
 		i: noop,
@@ -573,18 +564,18 @@ function instance($$self, $$props, $$invalidate) {
 	});
 
 	$$self.$$set = $$props => {
-		if ('props' in $$props) $$invalidate(2, props = $$props.props);
+		if ('props' in $$props) $$invalidate(1, props = $$props.props);
 		if ('url' in $$props) $$invalidate(0, url = $$props.url);
-		if ('autoplay' in $$props) $$invalidate(1, autoplay = $$props.autoplay);
+		if ('autoplay' in $$props) $$invalidate(2, autoplay = $$props.autoplay);
 	};
 
-	return [url, autoplay, props];
+	return [url, props, autoplay];
 }
 
 class Component extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { props: 2, url: 0, autoplay: 1 });
+		init(this, options, instance, create_fragment, safe_not_equal, { props: 1, url: 0, autoplay: 2 });
 	}
 }
 
