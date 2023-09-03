@@ -176,9 +176,22 @@ footer.svelte-1n8xi4a.svelte-1n8xi4a{display:flex;justify-content:space-between;
     <br>
     Open Source 🤍
   </span></footer></div> 
-<div class="section" id="section-a06288ea"><div class="items svelte-117rpi"><figure><audio controls src="https://iosvxummnkighkqckwck.supabase.co/storage/v1/object/public/staticfiles/track.webm?t=2023-09-03T11%3A00%3A34.459Z" autoplay><a href="/media/cc0-audio/t-rex-roar.mp3">Download audio </a></audio></figure></div></div> 
+<div class="section" id="section-a06288ea"><div class="items svelte-117rpi"><figure><audio controls src="https://iosvxummnkighkqckwck.supabase.co/storage/v1/object/public/staticfiles/track.webm?t=2023-09-03T11%3A00%3A34.459Z" autoplay ><a href="/media/cc0-audio/t-rex-roar.mp3">Download audio </a></audio></figure></div></div> 
 
       <script type="module">
+      import('/_symbols/3aeae6d6-120c-450b-b82e-45d9848460d0.js')
+      .then(({default:App}) => {
+        
+            new App({
+              target: document.querySelector('#section-a06288ea'),
+              hydrate: true,
+              props: {"url":"https://iosvxummnkighkqckwck.supabase.co/storage/v1/object/public/staticfiles/track.webm?t=2023-09-03T11%3A00%3A34.459Z","autoplay":true}
+            })
+          
+      })
+      .catch(e => console.error(e))
+    
+
       import('/_symbols/2016347b-5d8b-491c-b8f0-ee18fa82a5f2.js')
       .then(({default:App}) => {
         
