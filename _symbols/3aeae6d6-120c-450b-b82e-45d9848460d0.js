@@ -521,7 +521,7 @@ function create_fragment(ctx) {
 			var div_nodes = children(div);
 			figure = claim_element(div_nodes, "FIGURE", {});
 			var figure_nodes = children(figure);
-			audio = claim_element(figure_nodes, "AUDIO", { src: true });
+			audio = claim_element(figure_nodes, "AUDIO", { id: true, src: true });
 			var audio_nodes = children(audio);
 			audio_nodes.forEach(detach);
 			figure_nodes.forEach(detach);
@@ -529,6 +529,7 @@ function create_fragment(ctx) {
 			this.h();
 		},
 		h() {
+			attr(audio, "id", "bday-audio");
 			audio.controls = true;
 			if (!src_url_equal(audio.src, audio_src_value = /*url*/ ctx[0])) attr(audio, "src", audio_src_value);
 			audio.autoplay = true;
@@ -560,6 +561,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	document.addEventListener('DOMContentLoaded', function () {
 		var aud = document.getElementById('bday-audio');
+		aud.play();
 		aud.muted = false;
 	});
 
