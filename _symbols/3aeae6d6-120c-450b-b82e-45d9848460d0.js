@@ -168,9 +168,6 @@ function detach(node) {
 function element(name) {
     return document.createElement(name);
 }
-function text(data) {
-    return document.createTextNode(data);
-}
 function attr(node, attribute, value) {
     if (value == null)
         node.removeAttribute(attribute);
@@ -250,20 +247,6 @@ function claim_element_base(nodes, name, attributes, create_element) {
 }
 function claim_element(nodes, name, attributes) {
     return claim_element_base(nodes, name, attributes, element);
-}
-function claim_text(nodes, data) {
-    return claim_node(nodes, (node) => node.nodeType === 3, (node) => {
-        const dataStr = '' + data;
-        if (node.data.startsWith(dataStr)) {
-            if (node.data.length !== dataStr.length) {
-                return node.splitText(dataStr.length);
-            }
-        }
-        else {
-            node.data = dataStr;
-        }
-    }, () => text(data), true // Text nodes should not update last index since it is likely not worth it to eliminate an increasing subsequence of actual elements
-    );
 }
 
 let current_component;
@@ -524,8 +507,6 @@ function create_fragment(ctx) {
 	let div;
 	let figure;
 	let audio;
-	let a;
-	let t;
 	let audio_src_value;
 	let audio_muted_value;
 
@@ -534,8 +515,6 @@ function create_fragment(ctx) {
 			div = element("div");
 			figure = element("figure");
 			audio = element("audio");
-			a = element("a");
-			t = text("Download audio");
 			this.h();
 		},
 		l(nodes) {
@@ -545,17 +524,12 @@ function create_fragment(ctx) {
 			var figure_nodes = children(figure);
 			audio = claim_element(figure_nodes, "AUDIO", { src: true });
 			var audio_nodes = children(audio);
-			a = claim_element(audio_nodes, "A", { href: true });
-			var a_nodes = children(a);
-			t = claim_text(a_nodes, "Download audio");
-			a_nodes.forEach(detach);
 			audio_nodes.forEach(detach);
 			figure_nodes.forEach(detach);
 			div_nodes.forEach(detach);
 			this.h();
 		},
 		h() {
-			attr(a, "href", "/media/cc0-audio/t-rex-roar.mp3");
 			audio.controls = true;
 			if (!src_url_equal(audio.src, audio_src_value = /*url*/ ctx[0])) attr(audio, "src", audio_src_value);
 			audio.autoplay = /*autoplay*/ ctx[1];
@@ -566,8 +540,6 @@ function create_fragment(ctx) {
 			insert_hydration(target, div, anchor);
 			append_hydration(div, figure);
 			append_hydration(figure, audio);
-			append_hydration(audio, a);
-			append_hydration(a, t);
 		},
 		p(ctx, [dirty]) {
 			if (dirty & /*url*/ 1 && !src_url_equal(audio.src, audio_src_value = /*url*/ ctx[0])) {
